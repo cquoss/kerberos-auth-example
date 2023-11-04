@@ -13,8 +13,8 @@ public class KerberosCallBackHandler implements CallbackHandler {
     public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
 
         // call database or retrieve credentials by other means
-        String user = "CHANGEME";
-        String password = "CHANGEME";
+        String user = "quossc";
+        String password = "OpenShift#53Depl";
 
         for (Callback callback : callbacks) {
 

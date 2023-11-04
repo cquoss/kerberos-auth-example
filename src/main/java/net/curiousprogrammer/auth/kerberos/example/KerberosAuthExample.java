@@ -45,8 +45,8 @@ import java.security.Security;
  */
 public class KerberosAuthExample {
 
-    private static final String PROXY_HOST = "CHANGEME";
-    private static final int PROXY_PORT = 3128;
+    private static final String PROXY_HOST = "cproxy.intern.union-investment.de";
+    private static final int PROXY_PORT = 8080;
 
     public static void callServer(String url) throws IOException {
          HttpClient httpclient = getHttpClient();
@@ -92,9 +92,10 @@ public class KerberosAuthExample {
         Registry<AuthSchemeProvider> authSchemeRegistry = RegistryBuilder.<AuthSchemeProvider>create().register(AuthSchemes.SPNEGO, new SPNegoSchemeFactory(true)).build();
         CloseableHttpClient httpclient = HttpClients.custom()
                 // set our proxy - httpclient doesn't use ProxySelector
-                .setRoutePlanner(new DefaultProxyRoutePlanner(new HttpHost(PROXY_HOST, PROXY_PORT)))
-                .setDefaultAuthSchemeRegistry(authSchemeRegistry)
-                .setDefaultCredentialsProvider(credsProvider).build();
+                // .setRoutePlanner(new DefaultProxyRoutePlanner(new HttpHost(PROXY_HOST, PROXY_PORT)))
+                // .setDefaultAuthSchemeRegistry(authSchemeRegistry)
+                // .setDefaultCredentialsProvider(credsProvider)
+                .build();
 
         return httpclient;
     }
@@ -110,17 +111,17 @@ public class KerberosAuthExample {
     }
 
     public static void main(String[] args) throws IOException {
-        System.setProperty("java.security.krb5.conf", "/etc/krb5.conf");
-        System.setProperty("java.security.auth.login.config", "login.conf");
-        System.setProperty("javax.security.auth.useSubjectCredsOnly", "false");
-        System.setProperty("sun.security.krb5.debug", "true");
-        System.setProperty("sun.security.jgss.debug", "true");
+        // System.setProperty("java.security.krb5.conf", "/etc/krb5.conf");
+        // System.setProperty("java.security.auth.login.config", "login.conf");
+        // System.setProperty("javax.security.auth.useSubjectCredsOnly", "false");
+        // System.setProperty("sun.security.krb5.debug", "true");
+        // System.setProperty("sun.security.jgss.debug", "true");
 
         // Setting default callback handler to avoid prompting for password on command line
         // check https://github.com/frohoff/jdk8u-dev-jdk/blob/master/src/share/classes/sun/security/jgss/GSSUtil.java#L241
-        Security.setProperty("auth.login.defaultCallbackHandler", "net.curiousprogrammer.auth.kerberos.example.KerberosCallBackHandler");
+        // Security.setProperty("auth.login.defaultCallbackHandler", "net.curiousprogrammer.auth.kerberos.example.KerberosCallBackHandler");
 
-        autoconfigureProxy();
+        // autoconfigureProxy();
 
         callServer("http://example.com");
         callServer("https://example.com");
